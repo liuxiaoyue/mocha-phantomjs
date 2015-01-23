@@ -79,26 +79,27 @@ program
 program.on('--help', function(){
   console.log('  Examples:');
   console.log('');
-  console.log('    $ mocha-phantomjs -R dot /test/file.html');
-  console.log('    $ mocha-phantomjs http://testserver.com/file.html');
-  console.log('    $ mocha-phantomjs -p ~/bin/phantomjs /test/file.html');
+  console.log('    $ mocha-phantomjs -R dot /test/file.html assert.js');
+  console.log('    $ mocha-phantomjs http://blog.sina.cn/dpool/blog/s/blog_4bccaa320102vd6w.html assert.js');
+  console.log('    $ mocha-phantomjs -p ~/bin/phantomjs /test/file.html assert.js');
   console.log('');
 });
 
 program.parse(process.argv);
 
-if (!program.args.length) { program.outputHelp(); process.exit(1); };
+if (!program.args.length) { program.outputHelp(); process.exit(1); }
 if (program.agent) { settings.userAgent = program.agent; }
 
-var script   = fs.realpathSync(__dirname + '/../lib/mocha-phantomjs.coffee');
+var script   = fs.realpathSync(__dirname + '/../lib/mocha-phantomjs.js');
+var assertScript = program.args[1];
 var reporter = program.reporter;
 var page     = function(){
   var arg = program.args[0];
-  if (arg.match(/file:\/\//))   { return arg; };
-  if (arg.match(/http:\/\//))   { return arg; };
-  if (arg.match(/https:\/\//))  { return arg; };
-  if (exists(arg))              { return arg; };
-  if (exists(cwd+'/'+arg))      { return fs.realpathSync(cwd+'/'+arg); };
+  if (arg.match(/file:\/\//))   { return arg; }
+  if (arg.match(/http:\/\//))   { return arg; }
+  if (arg.match(/https:\/\//))  { return arg; }
+  if (exists(arg))              { return arg; }
+  if (exists(cwd+'/'+arg))      { return fs.realpathSync(cwd+'/'+arg); }
   return arg;
 }();
 var config = JSON.stringify({
@@ -124,7 +125,7 @@ if (reporter) {
   }
 }
 
-var phantomPath
+var phantomPath;
 if (program.path) {
   phantomPath = path.resolve(program.path);
   if (!exists(phantomPath)) {
@@ -135,7 +136,7 @@ if (program.path) {
   phantomPath = require('phantomjs').path || '/usr/local/bin/phantomjs';
 }
 
-var phantomjs = spawn(phantomPath, [script, page, reporter, config]);
+var phantomjs = spawn(phantomPath, [script, page, assertScript, reporter, config]);
 phantomjs.stdout.pipe(process.stdout);
 phantomjs.stderr.pipe(process.stderr);
 phantomjs.on('exit', function(code){
