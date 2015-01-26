@@ -1,3 +1,23 @@
+# modify mocha-phantom usage
+
+```
+Usage: mocha-phantomjs [options] page script
+
+    [options] not modified;
+      
+    Example: bin/mocha-phantomjs -A "androidWebkit" http://blog.sina.cn/dpool/blog/s/blog_4bccaa320102vd6w.html test/lib/mriaBlog.js
+
+```
+Note params:
+
+page : links are not allowed to take ‘&’ symbol;
+
+script : Please use the local address
+
+
+```
+reason: commander get params bug and phantom webPageAPI fs.exists
+
 # PhantomJS Runners for Mocha
 
 [Mocha](http://visionmedia.github.com/mocha/) is a feature-rich JavaScript test framework running on node and the browser. Along with the [Chai](http://chaijs.com) assertion library they make an impressive combo. [PhantomJS](http://phantomjs.org) is a headless WebKit with a JavaScript/CoffeeScript API. It has fast and native support for various web standards like DOM handling, CSS selectors, JSON, Canvas, and SVG.
