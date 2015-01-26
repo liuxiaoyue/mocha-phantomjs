@@ -14,7 +14,9 @@ page : links are not allowed to take ‘&’ symbol;
 
 script : Please use the local address
 
-reason: commander get params bug and phantom webPageAPI fs.exists
+reason: 
+    process.argv get params wrong 
+    phantom webPageAPI fs.exists
 
 # PhantomJS Runners for Mocha
 
